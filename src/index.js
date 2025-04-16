@@ -52,6 +52,8 @@ document.getElementById("locationForm").addEventListener("submit", (e) => {
 const displayWeather = (weather) => {
   const container = document.getElementById("weatherDisplay");
 
+  container.innerHTML = "";
+
   if (weather.error) {
     container.textContent = weather.error;
     return;
