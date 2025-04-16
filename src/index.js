@@ -33,6 +33,7 @@ const getWeather = async (city) => {
     const data = await response.json();
     const processed = processWeatherData(data);
     console.log(processed);
+    displayWeather(processed);
     return processed
   } catch (err) {
     console.error("Error fetching weather data:", err);
@@ -47,3 +48,31 @@ document.getElementById("locationForm").addEventListener("submit", (e) => {
     getWeather(city);
   }
 });
+
+const displayWeather = (weather) => {
+  const container = document.getElementById("weatherDisplay");
+
+  if (weather.error) {
+    container.textContent = weather.error;
+    return;
+  }
+
+  const weatherCard = document.createElement("div");
+  weatherCard.className = "weather-card";
+  weatherCard.innerHTML = `
+    <h2>Weather for ${weather.city}</h2>
+    <p><strong>Date:</strong> ${weather.date}</p>
+    <p><strong>Current Temp:</strong> ${weather.temperature.current}°C</p>
+    <p><strong>Low / High:</strong> ${weather.temperature.min}°C / ${weather.temperature.max}°C</p>
+    <p><strong>Conditions:</strong> ${weather.conditions}</p>
+    <p><strong>Description:</strong> ${weather.description}</p>
+    <p><strong>Humidity:</strong> ${weather.humidity}%</p>
+    <p><strong>Wind Speed:</strong> ${weather.windSpeed} km/h</p>
+    <p><strong>Sunrise:</strong> ${weather.sunrise}</p>
+    <p><strong>Sunset:</strong> ${weather.sunset}</p>
+  `;
+
+  container.appendChild(weatherCard);
+
+
+};
